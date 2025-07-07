@@ -195,6 +195,7 @@ Claude Desktop ↔ MCP Server ↔ WebSocket Server ↔ Figma Plugin
    **For Cursor IDE**:
    1. Go to Cursor Settings → Tools & Integrations
    2. Click on "New MCP Server" to open the `mcp.json` config file
+      <img src="images/cursor-config-1.png" alt="Configuration instructions on Cursor" width="400" />
    3. Add Claude Talk to Figma configuration to mcpServers:
       ```json
       {
