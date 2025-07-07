@@ -24,7 +24,7 @@ A Model Context Protocol (MCP) plugin that allows Claude Desktop and other AI to
    - **Claude**: `bun run configure-claude` (restart Claude Desktop)
    - **Cursor**:
      1. Go to Cursor Settings → Tools & Integrations
-     2. Click on "New MCP Server" to open the `mcp.json` config file
+     2. Click on "New MCP Server" to open the `mcp.json` config file ([help](images/cursor-config-1.png))
      3. Add Claude Talk to Figma configuration to mcpServers:
         ```json
         {
@@ -38,7 +38,7 @@ A Model Context Protocol (MCP) plugin that allows Claude Desktop and other AI to
           }
         }
         ```
-     4. After saving the file, the MCP will appear in the MCP list and the agent can use its tools
+     4. After saving the file, the MCP will appear in the MCP list and the agent can use its tools ([help](images/cursor-config-2.png)).
 3. **Install Figma Plugin**: Import `src/claude_mcp_plugin/manifest.json` in Figma → Menu → Plugins → Development
 
 ### First Connection
@@ -194,8 +194,7 @@ Claude Desktop ↔ MCP Server ↔ WebSocket Server ↔ Figma Plugin
 
    **For Cursor IDE**:
    1. Go to Cursor Settings → Tools & Integrations
-   2. Click on "New MCP Server" to open the `mcp.json` config file
-      <img src="images/cursor-config-1.png" alt="Configuration instructions on Cursor" width="400" />
+   2. Click on "New MCP Server" to open the `mcp.json` config file ([help](images/cursor-config-1.png))
    3. Add Claude Talk to Figma configuration to mcpServers:
       ```json
       {
@@ -209,7 +208,7 @@ Claude Desktop ↔ MCP Server ↔ WebSocket Server ↔ Figma Plugin
         }
       }
       ```
-   4. After saving the file, the MCP will appear in the MCP list and the agent can use its tools
+   4. After saving the file, the MCP will appear in the MCP list and the agent can use its tools ([help](images/cursor-config-2.png))
 
    **For Other AI Tools**:
    - Follow your tool's MCP integration documentation
