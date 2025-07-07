@@ -9,7 +9,7 @@ A Model Context Protocol (MCP) plugin that allows Claude Desktop and other AI to
 ## ⚡ Quick Start (5 minutes)
 
 ### Prerequisites
-- [Claude Desktop](https://claude.ai/download) + [Figma Desktop](https://www.figma.com/downloads/) + [Bun](https://bun.sh) installed
+- [Claude Desktop](https://claude.ai/download) / [Cursor](https://cursor.com/downloads) + [Figma Desktop](https://www.figma.com/downloads/) + [Bun](https://bun.sh) installed
 
 ### Installation
 1. **Setup**:
