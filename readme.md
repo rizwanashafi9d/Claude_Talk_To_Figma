@@ -180,7 +180,9 @@ Claude Desktop ↔ MCP Server ↔ WebSocket Server ↔ Figma Plugin
    bun run build:win
    ```
 
-2. **Configure Claude Desktop**:
+2. **Configure AI Tools**:
+
+   **For Claude Desktop**:
    ```bash
    bun run configure-claude
    ```
@@ -190,6 +192,29 @@ Claude Desktop ↔ MCP Server ↔ WebSocket Server ↔ Figma Plugin
    - Adds "ClaudeTalkToFigma" to your MCP list
    - **Restart Claude Desktop** after running this
 
+   **For Cursor IDE**:
+   1. Go to Cursor Settings → Tools & Integrations
+   2. Click on "New MCP Server" to open the `mcp.json` config file
+   3. Add Claude Talk to Figma configuration to mcpServers:
+      ```json
+      {
+        "mcpServers": {
+          "ClaudeTalkToFigma": {
+            "command": "bunx",
+            "args": [
+              "claude-talk-to-figma-mcp@latest"
+            ]
+          }
+        }
+      }
+      ```
+   4. After saving the file, the MCP will appear in the MCP list and the agent can use its tools
+
+   **For Other AI Tools**:
+   - Follow your tool's MCP integration documentation
+   - Use the same server configuration as shown above
+   - Ensure the tool supports Model Context Protocol
+
 3. **Install Figma Plugin**:
    - Open Figma → **Menu > Plugins > Development**
    - Select "Import plugin from manifest"
@@ -197,9 +222,10 @@ Claude Desktop ↔ MCP Server ↔ WebSocket Server ↔ Figma Plugin
    - Plugin appears in your development plugins list
 
 4. **Verify Installation**:
-   - Claude Desktop: Check "ClaudeTalkToFigma" appears in MCPs selector
-   - Figma: Find "Claude MCP Plugin" in your plugins
-   - WebSocket: `bun socket` should start without errors
+   - **Claude Desktop**: Check "ClaudeTalkToFigma" appears in MCPs selector
+   - **Cursor**: Verify the MCP appears in the MCP list and tools are available
+   - **Figma**: Find "Claude MCP Plugin" in your plugins
+   - **WebSocket**: `bun socket` should start without errors on port 3055
 
 ---
 
@@ -220,9 +246,10 @@ bun run test:integration  # Guided end-to-end testing
 ### Manual Verification Checklist
 - [ ] WebSocket server starts on port 3055
 - [ ] Figma plugin connects and generates channel ID
-- [ ] Claude recognizes "ClaudeTalkToFigma" MCP
+- [ ] AI tool recognizes "ClaudeTalkToFigma" MCP (Claude Desktop, Cursor, etc.)
 - [ ] Basic commands execute (create rectangle, change color)
 - [ ] Error handling works (invalid commands, timeouts)
+- [ ] Channel communication works between AI tool and Figma
 
 ---
 
@@ -231,7 +258,10 @@ bun run test:integration  # Guided end-to-end testing
 ### Connection Issues
 - **"Can't connect to WebSocket"**: Ensure `bun socket` is running
 - **"Plugin not found"**: Verify plugin import in Figma Development settings
-- **"MCP not available"**: Run `bun run configure-claude` and restart Claude
+- **"MCP not available"**: 
+  - Claude Desktop: Run `bun run configure-claude` and restart Claude
+  - Cursor IDE: Check MCP configuration in `mcp.json` file
+  - Other AI tools: Verify MCP integration settings
 
 ### Execution Problems
 - **"Command failed"**: Check Figma development console for errors
@@ -245,10 +275,12 @@ bun run test:integration  # Guided end-to-end testing
 - **WebSocket disconnects**: Server auto-reconnects, restart if persistent
 
 ### Common Solutions
-1. **Restart sequence**: Stop server → Close Claude → Restart both
+1. **Restart sequence**: Stop server → Close AI tool → Restart both
 2. **Clean reinstall**: Delete `node_modules` → `bun install` → `bun run build`
 3. **Check logs**: Server terminal shows detailed error messages
 4. **Update fonts**: Some team fonts require manual loading in Figma
+5. **Configuration check**: Verify MCP setup in your AI tool's settings
+6. **Port conflicts**: Ensure port 3055 is not used by other applications
 
 ---
 
