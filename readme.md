@@ -8,77 +8,51 @@ A Model Context Protocol (MCP) plugin that allows Claude Desktop and other AI to
 
 ## ⚡ Installation
 
-### Option 1: DXT Package (Recommended)
-**5-minute setup for most users**
+### Prerequisites
+- [Claude Desktop](https://claude.ai/download) or [Cursor](https://cursor.com/downloads) + [Figma Desktop](https://www.figma.com/downloads/) + [Bun](https://bun.sh) installed
 
-1. **Download & Install**:
-   - Get `claude-talk-to-figma-mcp-0.6.0.dxt` from [releases](https://github.com/arinspunk/claude-talk-to-figma-mcp/releases)
-   - **Double-click** → Claude Desktop installs automatically ✨
+### Setup
+```bash
+git clone https://github.com/arinspunk/claude-talk-to-figma-mcp.git
+cd claude-talk-to-figma-mcp
+bun install
+```
+- **macOS/Linux**: `bun run build`
+- **Windows**: `bun run build:win`
 
-2. **Setup Communication** (one-time):
-   - Clone repo: `git clone https://github.com/arinspunk/claude-talk-to-figma-mcp.git`
-   - Install: `bun install` 
-   - Start server: `bun socket` (verify at `http://localhost:3055/status`)
+### AI client configuration
 
-3. **Install Figma Plugin** (one-time):
-   - Figma → **Menu → Plugins → Development** → "Import plugin from manifest"
-   - Select `src/claude_mcp_plugin/manifest.json` from cloned repo
+#### Option 1: DXT Package (Claude Desktop only)
+1. **Download**: Get the latest `claude-talk-to-figma-mcp.dxt` from [releases](https://github.com/arinspunk/claude-talk-to-figma-mcp/releases)
+2. **Install**: Double-click the `.dxt` file → Claude Desktop installs automatically
 
-4. **Connect & Use**:
-   - Open plugin in Figma → copy channel ID
-   - In Claude: **"Talk to Figma, channel {your-channel-id}"**
-
-✅ **Success**: Claude confirms connection and you can start designing!
-
----
-
-### Option 2: Source Installation  
-**For developers who want to customize**
-
-**Prerequisites**: [Claude Desktop](https://claude.ai/download) + [Figma Desktop](https://www.figma.com/downloads/) + [Bun](https://bun.sh)
-
-1. **Clone & Build**:
-   ```bash
-   git clone https://github.com/arinspunk/claude-talk-to-figma-mcp.git
-   cd claude-talk-to-figma-mcp
-   bun install
-   ```
-   **Build for your OS**:
-   - **macOS/Linux**: `bun run build`
-   - **Windows**: `bun run build:win`
-
-2. **Configure MCP Server**:
-   
-   **For Claude Desktop**:
-   ```bash
-   bun run configure-claude  # Restart Claude Desktop after this
-   ```
-   
-   **For Cursor IDE**:
-   1. Cursor → Settings → Tools & Integrations → "New MCP Server"
-   2. Add to `mcp.json`:
-      ```json
-      {
-        "mcpServers": {
-          "ClaudeTalkToFigma": {
-            "command": "bunx",
-            "args": ["claude-talk-to-figma-mcp@latest"]
-          }
+#### Option 2: JSON (Claude Desktop + Cursor)
+- **Claude Desktop**: Run `bun run configure-claude` (restart Claude Desktop)
+- **Cursor**:
+  1. Go to Cursor Settings → Tools & Integrations
+  2. Click "New MCP Server" to open `mcp.json` config ([screenshot](images/cursor-config-1.png))
+  3. Add this configuration:
+    ```json
+    {
+      "mcpServers": {
+        "ClaudeTalkToFigma": {
+          "command": "bunx",
+          "args": ["claude-talk-to-figma-mcp@latest"]
         }
       }
-      ```
-   3. Save → MCP appears in tools list ([config screenshots](images/cursor-config-1.png))
+    }
+    ```
+  4. Save the file ([screenshot](images/cursor-config-2.png))
 
-3. **Install Figma Plugin & Connect**: 
-   - **Figma Plugin**: Figma → Menu → Plugins → Development → Import `src/claude_mcp_plugin/manifest.json`
-   - **Connect**: Open plugin in Figma → copy channel ID → Claude: "Talk to Figma, channel {ID}"
-   - **Verify**: Start `bun socket` and test connection
+### Setup Figma Plugin (Required for all methods)
+Import `src/claude_mcp_plugin/manifest.json` in Figma → Menu → Plugins → Development
 
-### Server Management (Both Options)
-- **Start**: `bun socket` 
-- **Stop**: `Ctrl+C` in terminal
-- **Status**: Check `http://localhost:3055/status`
-- **Restart**: Required if connection issues occur
+### First Connection
+1. **Start server**: `bun socket` (verify at `http://localhost:3055/status`)
+2. **Connect plugin**: Open Claude MCP Plugin in Figma → copy channel ID
+3. **Test**: Ask your AI client: "Talk to Figma, channel {channel-ID}"
+
+✅ **Success**: Your AI should confirm connection and you can start designing!
 
 ---
 
