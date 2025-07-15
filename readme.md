@@ -379,18 +379,18 @@ src/
 5. **Pull Request**: Clear description of changes
 
 #### Recent Contributors
-- **[Taylor Smits](https://github.com/smitstay)** - Fixed opacity handling in color functions and added automated tests ([PR #13](https://github.com/arinspunk/claude-talk-to-figma-mcp/pull/13), [PR #14](https://github.com/arinspunk/claude-talk-to-figma-mcp/pull/14))
+- **[Taylor Smits](https://github.com/smitstay)** - DXT Package Support implementation, automated CI/CD workflows, and testing improvements ([PR #17](https://github.com/arinspunk/claude-talk-to-figma-mcp/pull/17), [PR #13](https://github.com/arinspunk/claude-talk-to-figma-mcp/pull/13), [PR #14](https://github.com/arinspunk/claude-talk-to-figma-mcp/pull/14))
 - **[easyhak](https://github.com/easyhak)** - Fixed build script not working on Windows OS ([PR #10](https://github.com/arinspunk/claude-talk-to-figma-mcp/pull/10))
 
 ---
 
 ## 📋 Version History
 
-### Current: 0.5.3
-- **Windows Compatibility**: Added dedicated build command for Windows systems
-- **Cross-Platform Support**: Improved developer experience across all operating systems
-- **Build Process Enhancement**: Separated Unix/Linux and Windows build workflows
-- **Developer Experience**: Resolved chmod dependency issues on Windows
+### Current: 0.6.0
+- **🚀 DXT Package Support**: one-click installation via Claude Desktop's extension manager (Thanks to [Taylor Smits](https://github.com/smitstay) - [PR #17](https://github.com/arinspunk/claude-talk-to-figma-mcp/pull/17))
+- **📦 Automated Distribution**: GitHub Actions workflow for automatic DXT package generation and release uploads
+- **⚡ Enhanced UX**: Installation time reduced from 15-30 minutes to 2-5 minutes for end users
+- **🔧 Developer Tools**: New build scripts for DXT packaging (`npm run build:dxt`, `npm run pack`)
 
 See [CHANGELOG.md](CHANGELOG.md) for complete version history.
 

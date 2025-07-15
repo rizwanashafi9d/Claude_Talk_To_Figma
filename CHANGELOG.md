@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2025-07-15
+
+### Added
+- **🚀 DXT Package Support**: Complete implementation of Anthropic's Desktop Extensions format for Claude Desktop
+- **📦 Automated CI/CD Pipeline**: GitHub Actions workflow for automatic DXT package generation and release distribution
+- **🔧 DXT Build Scripts**: New npm scripts for DXT packaging (`pack`, `build:dxt`, `sync-version`)
+- **📋 .dxtignore Configuration**: Optimized package exclusions for minimal DXT file size (11.6MB compressed)
+- **🎯 Dual Distribution Strategy**: NPM registry for developers + DXT packages for end users
+
+### Changed
+- **⚡ Installation Experience**: Reduced setup time from 15-30 minutes to 2-5 minutes via one-click DXT installation
+- **📖 Documentation**: Enhanced README with comprehensive DXT installation instructions and troubleshooting
+- **🏗️ Build Process**: Improved version synchronization between package.json and manifest.json
+- **🔄 Release Workflow**: Automated DXT package attachment to GitHub releases
+
+### Technical Details
+- Added `@anthropic-ai/dxt@^0.2.0` development dependency for DXT packaging
+- Implemented robust error handling and validation in CI/CD pipeline
+- Enhanced build artifacts with 90-day retention for testing and rollback capabilities
+- Established quality gates ensuring DXT packages only build after successful test suites
+
+### Credits
+- **DXT Implementation**: [Taylor Smits](https://github.com/smitstay) - [PR #17](https://github.com/arinspunk/claude-talk-to-figma-mcp/pull/17)
+
 ## [0.5.3] - 2025-06-20
 
 ### Added
