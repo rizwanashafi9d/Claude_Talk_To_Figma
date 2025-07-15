@@ -32,14 +32,52 @@ jobs:
       
     - name: Update manifest version
       run: |
+        set -e
+        echo "🔄 Updating manifest version..."
         VERSION=$(jq -r '.version' package.json)
-        jq --arg version "$VERSION" '.version = $version' manifest.json > manifest.tmp && mv manifest.tmp manifest.json
+        if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
+          echo "❌ Error: Could not read version from package.json"
+          exit 1
+        fi
+        echo "📝 Setting manifest version to: $VERSION"
+        jq --arg version "$VERSION" '.version = $version' manifest.json > manifest.tmp
+        if [ ! -s manifest.tmp ]; then
+          echo "❌ Error: Failed to update manifest.json"
+          exit 1
+        fi
+        mv manifest.tmp manifest.json
+        echo "✅ Manifest updated to version $VERSION"
       
     - name: Install DXT CLI
-      run: npm install -g @anthropic-ai/dxt
+      run: |
+        set -e
+        echo "⬇️ Installing DXT CLI v0.2.0..."
+        npm install -g @anthropic-ai/dxt@0.2.0
+        echo "✅ DXT CLI v0.2.0 installed successfully"
       
+    - name: Validate build output
+      run: |
+        set -e
+        echo "🔍 Validating build output..."
+        if [ ! -f "dist/talk_to_figma_mcp/server.cjs" ]; then
+          echo "❌ Error: Entry point not found after build"
+          echo "Expected: dist/talk_to_figma_mcp/server.cjs"
+          ls -la dist/ || echo "dist/ directory not found"
+          exit 1
+        fi
+        if [ ! -f "dist/socket.cjs" ]; then
+          echo "❌ Error: Socket server not found after build"
+          echo "Expected: dist/socket.cjs"
+          exit 1
+        fi
+        echo "✅ Build output validated successfully"
+    
     - name: Create DXT package
-      run: dxt pack
+      run: |
+        set -e
+        echo "📦 Creating DXT package..."
+        dxt pack
+        echo "✅ DXT package created successfully"
       
     - name: Get package info
       id: package
@@ -56,11 +94,12 @@ jobs:
         
     - name: Upload to release (on release only)
       if: github.event_name == 'release'
-      uses: actions/upload-release-asset@v1
+      run: |
+        set -e
+        echo "📦 Uploading DXT package to release..."
+        gh release upload ${{ github.event.release.tag_name }} \
+          ${{ steps.package.outputs.name }}.dxt \
+          --clobber
+        echo "✅ DXT package uploaded successfully"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ${{ steps.package.outputs.name }}.dxt
-        asset_name: ${{ steps.package.outputs.name }}-${{ steps.package.outputs.version }}.dxt
-        asset_content_type: application/zip
