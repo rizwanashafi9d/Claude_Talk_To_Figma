@@ -8,10 +8,10 @@ A Model Context Protocol (MCP) plugin that allows Claude Desktop and other AI to
 
 ## ⚡ Installation
 
-### 0. Prerequisites
+### 1. Prerequisites
 - [Claude Desktop](https://claude.ai/download) or [Cursor](https://cursor.com/downloads) + [Figma Desktop](https://www.figma.com/downloads/) + [Bun](https://bun.sh) installed
 
-### 1. Setup
+### 2. Setup
 ```bash
 git clone https://github.com/arinspunk/claude-talk-to-figma-mcp.git
 cd claude-talk-to-figma-mcp
@@ -20,7 +20,7 @@ bun install
 - **macOS/Linux**: `bun run build`
 - **Windows**: `bun run build:win`
 
-### 2. AI client configuration
+### 3. AI client configuration
 
 #### Option 1: DXT Package (Claude Desktop only)
 1. **Download**: Get the latest `claude-talk-to-figma-mcp.dxt` from [releases](https://github.com/arinspunk/claude-talk-to-figma-mcp/releases)
@@ -44,7 +44,7 @@ bun install
     ```
   4. Save the file ([screenshot](images/cursor-config-2.png))
 
-### 3. Setup Figma Plugin (Required for all methods)
+### 4. Setup Figma Plugin (Required for all methods)
 Import `src/claude_mcp_plugin/manifest.json` in Figma → Menu → Plugins → Development
 
 ### 4. First Connection
