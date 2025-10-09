@@ -212,6 +212,7 @@ Step 7: Create button
 → set_fill_color(nodeId=<btnId>, color="#0A84FF")
 → create_text(parentId=<screenId>, text="Sign In", fontSize=16, fontWeight=600)
 
+
 Step 8: Verify
 → get_node_info(nodeId=<screenId>)
 → scan_text_nodes(parentId=<screenId>)
