@@ -3,6 +3,8 @@ dist/
 docs/
 coverage/
 .cursor/
+.augment
+.augment/
 
 # NPM lock file (project uses Bun as primary package manager)
 package-lock.json
