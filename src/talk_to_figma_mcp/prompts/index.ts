@@ -13,87 +13,234 @@ export function registerPrompts(server: McpServer): void {
   // Design Strategy Prompt
   server.prompt(
     "design_strategy",
-    "Best practices for working with Figma designs",
-    (extra) => {
+    "Best practices for working with Figma designs using available tools",
+    () => {
       return {
         messages: [
           {
             role: "assistant",
             content: {
               type: "text",
-              text: `When working with Figma designs, follow these best practices:
+              text: `# FIGMA MCP TOOL USAGE GUIDE
 
-1. Start with Document Structure:
-   - First use get_document_info() to understand the current document
-   - Plan your layout hierarchy before creating elements
-   - Create a main container frame for each screen/section
+This guide teaches you HOW to use Figma MCP tools systematically for ANY design task.
 
-2. Naming Conventions:
-   - Use descriptive, semantic names for all elements
-   - Follow a consistent naming pattern (e.g., "Login Screen", "Logo Container", "Email Input")
-   - Group related elements with meaningful names
+═══════════════════════════════════════════════════════════════
+AVAILABLE TOOLS (use these exact function names)
+═══════════════════════════════════════════════════════════════
 
-3. Layout Hierarchy:
-   - Create parent frames first, then add child elements
-   - For forms/login screens:
-     * Start with the main screen container frame
-     * Create a logo container at the top
-     * Group input fields in their own containers
-     * Place action buttons (login, submit) after inputs
-     * Add secondary elements (forgot password, signup links) last
+Document / Inspection:
+- get_document_info, get_selection, get_node_info, get_nodes_info
+- scan_text_nodes, get_styles, join_channel, export_node_as_image, log_error
 
-4. Input Fields Structure:
-   - Create a container frame for each input field
-   - Include a label text above or inside the input
-   - Group related inputs (e.g., username/password) together
+Creation:
+- create_rectangle, create_frame, create_text, create_ellipse
+- create_polygon, create_star, clone_node, group_nodes, ungroup_nodes
+- insert_child, flatten_node, create_component_instance
 
-5. Element Creation:
-   - Use create_frame() for containers and input fields
-   - Use create_text() for labels, buttons text, and links
-   - Set appropriate colors and styles:
-     * Use fillColor for backgrounds
-     * Use strokeColor for borders
-     * Set proper fontWeight for different text elements
+Modification / Styling / Layout:
+- set_fill_color, set_stroke_color, move_node, resize_node, delete_node
+- set_corner_radius, set_auto_layout, set_effects, set_effect_style_id
 
-6. Mofifying existing elements:
-  - use set_text_content() to modify text content.
+Text / Typography:
+- set_text_content, set_multiple_text_contents, set_font_name
+- set_font_size, set_font_weight, set_letter_spacing, set_line_height
+- set_paragraph_spacing, set_text_case, set_text_decoration
+- get_styled_text_segments, load_font_async
 
-7. Visual Hierarchy:
-   - Position elements in logical reading order (top to bottom)
-   - Maintain consistent spacing between elements
-   - Use appropriate font sizes for different text types:
-     * Larger for headings/welcome text
-     * Medium for input labels
-     * Standard for button text
-     * Smaller for helper text/links
+Component / Libraries:
+- get_local_components, get_remote_components, create_component_instance
 
-8. Best Practices:
-   - Verify each creation with get_node_info()
-   - Use parentId to maintain proper hierarchy
-   - Group related elements together in frames
-   - Keep consistent spacing and alignment
+═══════════════════════════════════════════════════════════════
+1. START WITH DOCUMENT INSPECTION
+═══════════════════════════════════════════════════════════════
 
-Example Login Screen Structure:
-- Login Screen (main frame)
-  - Logo Container (frame)
-    - Logo (image/text)
-  - Welcome Text (text)
-  - Input Container (frame)
-    - Email Input (frame)
-      - Email Label (text)
-      - Email Field (frame)
-    - Password Input (frame)
-      - Password Label (text)
-      - Password Field (frame)
-  - Login Button (frame)
-    - Button Text (text)
-  - Helper Links (frame)
-    - Forgot Password (text)
-    - Don't have account (text)`,
+ALWAYS begin by inspecting the current document:
+→ Call get_document_info() to understand existing structure
+→ Plan layout hierarchy BEFORE creating elements
+→ Create main container frames for each screen/section
+
+Example workflow:
+1. get_document_info(documentId="current")
+2. create_frame(parentId=<documentId>, name="Screen - <Name>", width=..., height=...)
+3. Verify with get_node_info(nodeId=<newFrameId>)
+
+═══════════════════════════════════════════════════════════════
+2. NAMING CONVENTIONS
+═══════════════════════════════════════════════════════════════
+
+Use descriptive, semantic names following these patterns:
+- Screens: "Screen - <Name>" (e.g., "Screen - Login", "Screen - Dashboard")
+- Sections: "Section - <Purpose>" (e.g., "Section - Header", "Section - Footer")
+- Components: "Component - <Type>" (e.g., "Component - Primary Button")
+- Inputs: "Input - <Field>" (e.g., "Input - Email", "Input - Password")
+- Containers: "Container - <Content>" (e.g., "Container - Form", "Container - Card")
+
+After creating nodes, verify names with get_node_info(nodeId).
+
+═══════════════════════════════════════════════════════════════
+3. LAYOUT HIERARCHY (Parent → Child)
+═══════════════════════════════════════════════════════════════
+
+CRITICAL: Create parent frames FIRST, then add children.
+
+Workflow:
+1. Create parent frame: create_frame(parentId=<parent>, name="...", width=..., height=...)
+2. Enable auto-layout for organized layouts:
+   set_auto_layout(
+     nodeId=<frameId>,
+     direction="vertical",  // or "horizontal"
+     spacing=16,            // adjust as needed
+     padding_top=24,
+     padding_right=16,
+     padding_bottom=24,
+     padding_left=16,
+     align="stretch"  // or "start", "center", "end"
+   )
+3. Add children: insert_child(parentId=<parent>, childId=<child>, position="end")
+
+═══════════════════════════════════════════════════════════════
+4. ELEMENT CREATION & STYLING
+═══════════════════════════════════════════════════════════════
+
+Use appropriate creation tools:
+- Containers/Layouts: create_frame()
+- Text elements: create_text()
+- Shapes: create_rectangle(), create_ellipse(), create_polygon(), create_star()
+- Duplicates: clone_node()
+
+Apply styling systematically:
+- Backgrounds: set_fill_color(nodeId=<id>, color="<hex>", alpha=1.0)
+- Borders: set_stroke_color(nodeId=<id>, color="<hex>", weight=1, alpha=1.0)
+- Corners: set_corner_radius(nodeId=<id>, radius=<value>)
+- Effects: set_effects() or set_effect_style_id()
+
+═══════════════════════════════════════════════════════════════
+5. TYPOGRAPHY WORKFLOW
+═══════════════════════════════════════════════════════════════
+
+IMPORTANT: Load fonts before applying them!
+
+Workflow:
+1. load_font_async(fontName="<FontName>")
+2. set_font_name(nodeId=<textNode>, fontName="<FontName>", style="Regular")
+3. set_font_size(nodeId=<textNode>, fontSize=<size>)
+4. set_font_weight(nodeId=<textNode>, weight=<weight>)
+5. Optional: set_letter_spacing(), set_line_height(), set_text_case(), set_text_decoration()
+
+Inspect text properties: get_styled_text_segments(nodeId=<textNode>)
+
+═══════════════════════════════════════════════════════════════
+6. MODIFYING EXISTING ELEMENTS
+═══════════════════════════════════════════════════════════════
+
+To update existing designs:
+- Text content: set_text_content(nodeId=<id>, text="New text")
+- Multiple texts: set_multiple_text_contents(updates=[{nodeId, text}, ...])
+- Position: move_node(nodeId=<id>, x=<x>, y=<y>)
+- Size: resize_node(nodeId=<id>, width=<w>, height=<h>)
+- Delete: delete_node(nodeId=<id>)
+- Reorganize: group_nodes(nodeIds=[...]) or ungroup_nodes(nodeId=<groupId>)
+
+Always verify changes with get_node_info() after modification.
+
+═══════════════════════════════════════════════════════════════
+7. COMPONENTS & REUSE
+═══════════════════════════════════════════════════════════════
+
+Leverage components for consistency:
+
+1. Check available components:
+   - get_local_components(documentId="current")
+   - get_remote_components() // from team libraries
+
+2. Create instances:
+   create_component_instance(
+     parentId=<parent>,
+     componentName="<ComponentName>",
+     props="<key>:<value>;<key>:<value>"
+   )
+
+3. If component doesn't exist, create it first, then instantiate.
+
+═══════════════════════════════════════════════════════════════
+8. VALIDATION & VERIFICATION
+═══════════════════════════════════════════════════════════════
+
+CRITICAL: Verify every step!
+
+After creation:
+- get_node_info(nodeId=<id>) → verify properties
+- get_nodes_info(nodeIds=[...]) → batch verification
+- scan_text_nodes(parentId=<id>) → audit all text content
+
+Error handling:
+- If any tool fails, call log_error(message="...", context="...")
+- Re-plan or retry with corrected parameters
+
+═══════════════════════════════════════════════════════════════
+WORKFLOW EXAMPLE: Login Screen
+═══════════════════════════════════════════════════════════════
+
+Step 1: Inspect document
+→ get_document_info(documentId="current")
+
+Step 2: Create main screen frame
+→ create_frame(parentId=<docId>, name="Screen - Login", width=375, height=812)
+→ set_auto_layout(nodeId=<screenId>, direction="vertical", spacing=24, padding_top=40, padding_right=16, padding_bottom=40, padding_left=16, align="center")
+
+Step 3: Create header
+→ create_text(parentId=<screenId>, text="Welcome Back", fontSize=28, fontWeight=700)
+
+Step 4: Create input container
+→ create_frame(parentId=<screenId>, name="Container - Inputs", width=343, height=160)
+→ set_auto_layout(nodeId=<inputContainerId>, direction="vertical", spacing=16, align="stretch")
+
+Step 5: Create email input
+→ create_frame(parentId=<inputContainerId>, name="Input - Email", width=343, height=70)
+→ create_text(parentId=<emailInputId>, text="Email", fontSize=14)
+→ create_rectangle(parentId=<emailInputId>, name="Email Field BG", width=343, height=44)
+→ set_corner_radius(nodeId=<fieldBgId>, radius=8)
+→ set_fill_color(nodeId=<fieldBgId>, color="<color>")
+→ set_stroke_color(nodeId=<fieldBgId>, color="#E0E0E0", weight=1)
+
+Step 6: Create password input (repeat Step 5 pattern)
+
+Step 7: Create button
+→ create_rectangle(parentId=<screenId>, name="Button - Primary", width=343, height=48)
+→ set_corner_radius(nodeId=<btnId>, radius=10)
+→ set_fill_color(nodeId=<btnId>, color="#0A84FF")
+→ create_text(parentId=<screenId>, text="Sign In", fontSize=16, fontWeight=600)
+
+Step 8: Verify
+→ get_node_info(nodeId=<screenId>)
+→ scan_text_nodes(parentId=<screenId>)
+
+Step 9: Export if needed
+→ export_node_as_image(nodeId=<screenId>, format="PNG", scale=2)
+
+═══════════════════════════════════════════════════════════════
+FINAL CHECKLIST
+═══════════════════════════════════════════════════════════════
+
+Before completing any design task:
+☐ Document inspected with get_document_info()
+☐ All frames created with semantic names
+☐ Auto-layout applied where appropriate
+☐ All fonts loaded with load_font_async()
+☐ Styling applied systematically
+☐ All nodes verified with get_node_info()
+☐ Text content audited with scan_text_nodes()
+☐ Errors logged with log_error() if any issues
+☐ Final structure matches planned hierarchy
+
+═══════════════════════════════════════════════════════════════
+
+This guide focuses on the PROCESS of using Figma tools effectively. Apply these workflows to ANY design task while respecting the specific design requirements provided by the user.`,
             },
           },
         ],
-        description: "Best practices for working with Figma designs",
+        description: "Best practices for working with Figma designs using available tools",
       };
     }
   );
@@ -102,7 +249,7 @@ Example Login Screen Structure:
   server.prompt(
     "read_design_strategy",
     "Best practices for reading Figma designs",
-    (extra) => {
+    () => {
       return {
         messages: [
           {
@@ -131,7 +278,7 @@ Example Login Screen Structure:
   server.prompt(
     "text_replacement_strategy",
     "Systematic approach for replacing text in Figma designs",
-    (extra) => {
+    () => {
       return {
         messages: [
           {
@@ -263,35 +410,17 @@ Remember that text is never just text—it's a core design element that must wor
 }
 
 // Export individual prompt registration functions
-export function registerDesignStrategyPrompt(server: McpServer): void {
-  server.prompt(
-    "design_strategy",
-    "Best practices for working with Figma designs",
-    (extra) => {
-      // Implementation is the same as above
-      // This function is exported for individual usage if needed
-    }
-  );
+export function registerDesignStrategyPrompt(_server: McpServer): void {
+  // This function is now handled by registerPrompts() above
+  // Kept for backward compatibility
 }
 
-export function registerReadDesignStrategyPrompt(server: McpServer): void {
-  server.prompt(
-    "read_design_strategy",
-    "Best practices for reading Figma designs",
-    (extra) => {
-      // Implementation is the same as above
-      // This function is exported for individual usage if needed
-    }
-  );
+export function registerReadDesignStrategyPrompt(_server: McpServer): void {
+  // This function is now handled by registerPrompts() above
+  // Kept for backward compatibility
 }
 
-export function registerTextReplacementStrategyPrompt(server: McpServer): void {
-  server.prompt(
-    "text_replacement_strategy",
-    "Systematic approach for replacing text in Figma designs",
-    (extra) => {
-      // Implementation is the same as above
-      // This function is exported for individual usage if needed
-    }
-  );
+export function registerTextReplacementStrategyPrompt(_server: McpServer): void {
+  // This function is now handled by registerPrompts() above
+  // Kept for backward compatibility
 }
