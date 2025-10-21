@@ -24,12 +24,12 @@ export function registerPrompts(server: McpServer): void {
               text: `When working with Figma designs, follow these best practices and always use available MCP tools in the correct order:
 
 1. Start with Document Structure:
-   - Always begin by calling get_document_info() to understand the current document.
+   - Always begin by calling 'get_document_info()' to understand the current document.
    - Plan your layout hierarchy before creating any elements.
-   - Create a main container frame for each screen or section using create_frame().
-   - Verify each frame creation with get_node_info().
-   - Use current selection with get_selection() to inspect the active node or frame.
-   - Use get_styles() for a color/text style audit when needed.
+   - Create a main container frame for each screen or section using 'create_frame()'.
+   - Verify each frame creation with 'get_node_info()'.
+   - Use current selection with 'get_selection()' to inspect the active node or frame.
+   - Use 'get_styles()' for a color/text style audit when needed.
 
 2. Naming Conventions:
    - Use clear, descriptive, and semantic names for every element.
@@ -48,28 +48,30 @@ export function registerPrompts(server: McpServer): void {
      * Group input fields in a dedicated input container.
      * Add action buttons (login, submit) after inputs.
      * Add secondary elements (forgot password, signup links) last.
-   - Use set_auto_layout() to maintain spacing and alignment.
+   - Use 'set_auto_layout()' to maintain spacing and alignment.
 
 4. Input Fields Structure:
    - Each input field should have its own frame.
-   - Add a label text above or inside the input using create_text().
+   - Add a label text above or inside the input using 'create_text()'.
    - Create a rectangle background for the input field with create_rectangle().
-   - Apply set_corner_radius() and set_stroke_color() for styling.
+   - Apply 'set_corner_radius()' and 'set_stroke_color()' for styling.
    - Group related inputs (e.g., username/password) together inside a frame.
 
 5. Element Creation & Styling:
-   - Use create_frame() for containers and structure.
-   - Use create_text() for labels, buttons, and links.
+   - Use 'create_frame()' for containers and structure.
+   - Use 'create_text()' for labels, buttons, and links.
+   - Use Shapes: create_rectangle(), create_ellipse(), create_polygon(), create_star()
    - Apply styles using:
-     * set_fill_color() for backgrounds.
-     * set_stroke_color() for borders.
-     * set_font_size(), set_font_weight(), and set_font_name() for typography.
-   - Always call load_font_async() before applying any text styles.
+     * 'set_fill_color()' for backgrounds.
+     * 'set_stroke_color()' for borders.
+     * 'set_font_size()', 'set_font_weight()', and 'set_font_name()' for typography, set_letter_spacing(), set_line_height(), set_text_case(), set_text_decoration().
+   - Always call 'load_font_async()' before applying any text styles.
 
 6. Modifying Existing Elements:
-   - Use set_text_content(nodeId, text) to update text.
-   - Adjust layout with resize_node(), move_node(), or delete_node() if needed.
-   - After modification, verify using get_node_info().
+   - Use 'set_text_content'(nodeId, text) to update text.
+   - Adjust layout with 'resize_node()', 'move_node()', or 'delete_node()' if needed.
+   - After modification, verify using 'get_node_info()'.
+   - Use Effects: set_effects() or set_effect_style_id()
 
 7. Visual Hierarchy:
    - Arrange elements in top-to-bottom logical order.
@@ -80,13 +82,6 @@ export function registerPrompts(server: McpServer): void {
      * Normal → Button text
      * Small → Helper or link text
 
-8. Icon Integration:
-   - When icons are required, first call search_icons(query="<keyword>") to find the desired icon.
-   - Then use insert_icon(iconName="<prefix>:<icon>", x=<x>, y=<y>, size=24, color="#000000", parentId=<frameId>).
-   - For multiple icons, use insert_multiple_icons(iconList, spacing, size, color, parentId).
-   - Common icon sets include: mdi, fa, bi, ri, tabler, heroicons.
-   - Ensure icon positioning and alignment with other elements in the frame.
-
 9. Validation & Verification:
    - After each step, confirm accuracy using:
      * get_node_info(nodeId) for single element.
@@ -96,6 +91,7 @@ export function registerPrompts(server: McpServer): void {
 
 10. Best Practices:
    - Use parentId correctly to maintain hierarchy.
+   - insert_child, flatten_node, create_component_instance
    - Keep related elements grouped inside frames.
    - Ensure spacing and alignment are consistent.
    - Always verify structure before completing a screen.
@@ -119,12 +115,11 @@ Example Login Screen Structure:
     - Don't have account (text)
 
 Final Checklist:
-☐ Document inspected with get_document_info().
+☐ Document inspected with 'get_document_info()'.
 ☐ Semantic naming applied.
 ☐ Auto-layout set for containers.
 ☐ Fonts loaded and applied.
-☐ Icons searched and inserted.
-☐ Verified using get_node_info() and scan_text_nodes().
+☐ Verified using 'get_node_info()' and 'scan_text_nodes()'.
 ☐ All elements grouped and aligned properly.`,
 
             },
